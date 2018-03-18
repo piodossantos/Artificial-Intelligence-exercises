@@ -1,46 +1,54 @@
 import random
-card_values={"A":0,"2":1,"3":2,"4":3,"5":4,"6":5,"7":6,"8":7,"9":8,"10":9,"J":10,"Q":11,"K":12}
+import math
 def DeckCards():
-	cards={}
-	for i in ["Diamond","Club","Heart","Spade"]:
+	cards=[]
+	#"♠♥♦♣"
+	#["Diamond","Club","Heart","Spade"]
+	for i in "♠♥♦♣":
+		k = 0
 		for j in ["A","2","3","4","5","6","7","8","9","10","J","Q","K"]:
-			temp=cards.get(j,[])+[(i,j)]
-			cards[j]=temp
+			cards+= [(j+" "+i,k)]
+			k+=1
 	return cards
-##nCards = [3,2,4,5]
-def Game(nCards):
+
+# lista montones [1,3,4,5]
+def RandomDeckCards(lista_montenes):
 	deck = DeckCards()
-	overlapping =[]
-	play_history =[]
-	foundation =[]
-	for i in range(len(nCards)):
-		overlapping+=[[]]
-	while sum(nCards) > sum([len(el) for el in overlapping]):
-		number = random.randint(0,12);
-		card = deck[number].pop()
-		flag = True
-		while flag:
-			randOverlapping = random.randint(0,len(nCards)-1)
-			if(len(overlapping[randOverlapping])<nCards[randOverlapping]):
-				flag=False
-				overlapping[randOverlapping]+=[card]
-				play_history+=[randOverlapping]
-	return(play_history)
-##print(Game([3,4,5]))
+	result = []
+	for i in lista_montenes:
+		result+=[[deck.pop(random.randint(0,len(deck)-1)) for _ in range(i)]]
+	result+=[[deck.pop(random.randint(0,len(deck)-1))]]
+	result+=[deck]
+	return result
 
-def Suc(deck,nMovs,card):
-	movs=[deck[(card[2]+1)%13]]
-	movs+=[deck[(card[2]-1)%13]]
-	movs=[item for sublist in movs for item in sublist]
-	if (movs==[] and nMovs>0):
-		movs= [item for sublist in deck.values() for item in sublist]
-	return movs
 
-def test():
-	deck=DeckCards()
-	deck.pop()
-	print("Test 1: {} ".format(Suc(deck,1,("A","Diamond",0))))
 
-#print(test())
+# Sucesores
 
-print(DeckCards())
+def sucesor(deck):
+	cantidad_mazos= len(deck) -2
+	tope_fundacion= deck[-2][-1]
+	resultado=[]
+	if len(deck[-1]) != 0:
+		resultado+=[deck[-1][-1]]
+	for i in range(cantidad_mazos):
+	#	print((deck[i][-1][1] - tope_fundacion[1])%12)
+		#tope_fundacion[1]
+		#deck[i][-1][1]
+		if deck[i][-1][1]==((tope_fundacion[1] + 1)%13):
+			resultado+=[deck[i][-1]]
+		elif deck[i][-1][1]==((tope_fundacion[1] - 1)%13):
+			resultado+=[deck[i][-1]]
+	return resultado
+
+
+resultado = RandomDeckCards([7,7,7,7,7])
+print("tope mazos en mesa")
+for i in range( len(resultado)-2):
+	print(resultado[i][-1][0])
+print("Fundacion")
+print(resultado[-2][-1][0])
+print("Tope Mazo ")
+print(resultado[-1][-1][0])
+print("Combinaciones posibles")
+print(sucesor(resultado))
