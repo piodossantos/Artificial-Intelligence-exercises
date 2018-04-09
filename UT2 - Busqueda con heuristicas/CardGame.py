@@ -45,7 +45,7 @@ def successor(deck):
 
 
 def search1(problem):
-    for _ in range(25000):
+    for _ in range(100000):
         deck = RandomDeckCards(problem)
         if goalTest1(problem, copy.deepcopy(deck)):
             return deck
@@ -130,11 +130,12 @@ def sucesor_heuristic(deck):
     #print(result)
     if result != []:
         #print("Entro aca")
-        best = 0
+        best = result[0]
+        #print(str(best))
         #print(str(best))
         for i in result:
             #print(str(i),str(deck[i]))
-            best = best if best >= len(deck[i]) else i
+            best = best if len(deck[best]) >= len(deck[i]) else i
             #print("Best " + str(best))
         #print(str(best))
         return best
@@ -145,9 +146,9 @@ def sucesor_heuristic(deck):
 
 def printGame(game):
     for i in range(len(game) - 2):
-        print("Mazo " + str(i) + ":" + str([j[0][0] for j in game[i]]))
-    print("Fundacion: " + str(game[-2][0][0][0]))
-    print("Mazo sin descubrir: " + str([j[0][0] for j in game[-1]]))
+        print("Mazo " + str(i) + ":" + str([j[0] for j in game[i]]))
+    print("Fundacion: " + str(game[-2][0][0]))
+    print("Mazo sin descubrir: " + str([j[0] for j in game[-1]]))
 
 
 def testRandomDeck():
@@ -177,5 +178,5 @@ def testSearch2():
 
 
 #testSearch1()
- testSearch2()
+testSearch2()
 # testRandomDeck()
