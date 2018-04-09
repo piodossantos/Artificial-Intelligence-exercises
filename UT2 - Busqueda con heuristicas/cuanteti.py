@@ -1,6 +1,8 @@
 import random
-
+import math
 __author__ = "Equipo Pro"
+
+
 
 
 def playGame():
@@ -8,7 +10,12 @@ def playGame():
     player = True
     while playing(game):
         print(board(game))
-        position = int(input("Juega " + ("X" if player else "O") + ".\nIngrese Posicion"))
+        if player:
+            position = int(input("\nJuega " + ("X" if player else "O") + ".\nIngrese Posicion: "))
+        else:
+            print("\nJuega " + ("X" if player else "O"))
+            position = int(heuristic(game))
+            #print(str(position))
         if position < 0 or position > 15:
             print("Debe seleccionar Posicion Valida")
         elif game[position] != " ":
@@ -16,7 +23,6 @@ def playGame():
         else:
             game[position] = "X" if player else "O"
             player = not player
-    print(board)
     print("El juego ha terminado.")
     w = winner(game)
     if w == "E":
@@ -25,9 +31,9 @@ def playGame():
         print("El Ganador es: " + w)
 
 
-def board(game):
-    return f"{'|'.join(game[:4])}\n{'|'.join(game[4:8])}\n{'|'.join(game[8:12])}\n{'|'.join(game[12:])}"
 
+def board(game):
+    return "{}\n{}\n{}\n{}\n".format('|'.join(game[:4]),'|'.join(game[4:8]),'|'.join(game[8:12]),'|'.join(game[12:]))
 
 def winner(game):
     combos = winning_combos(game)
@@ -67,13 +73,51 @@ def winning_combos(game):
 def playing(game):
     return " " in game
 
-
+def heuristic(game):
+    diagonals = [
+    [8,5,2],
+    [12,9,6,3],
+    [13,10,7],
+    [4,9,14],
+    [0,5,10,15],
+    [1,6,11]
+    ]
+    positions = [(i,0) for i in range(0,16) if game[i]==" "]
+    for p in range(len(positions)):
+        combos = []
+        i = math.floor(positions[p][0]/16)
+        j = positions[p][0]%16
+        combos+=[''.join(game[i:i+4])]
+        combos+=[''.join([game[k] for k in range(16) if k%4 == j])]
+        for f in diagonals:
+            if positions[p][0] in f:
+                combos+=[''.join([game[w] for w in f])]
+        for c in combos:
+            if len(c)>3:
+                points = abs((c.count("X")-c.count("0"))**3)+c.count(' ')**(1/2)
+            else:
+                points = (c.count("X")-c.count("0"))**2+c.count(' ')**(1/2)
+            positions[p]=(positions[p][0],points+positions[p][1])
+    result=(-1,-1)
+    best=[]
+    print(positions)
+    for p in positions:
+        result = p if p[1] > result [1] else result
+    for p in positions:
+        if p[1]==result[1]:
+            best+=[result]
+    print(best)
+    return random.choice(best)[0]
 def test1():
     testGame = ["X" for _ in range(8)] + ["O" for _ in range(8)]
     random.shuffle(testGame)
-    print(board(testGame))
-    print(winner(testGame))
+    #print(board(testGame))
+    #print(winner(testGame))
 
-
-# playGame()
-test1()
+def test2():
+    testGame =[random.choice(["X","O"," "]) for _ in range(16) ]
+    #print(board(testGame))
+    #print(heuristic(testGame))
+playGame()
+#test1()
+#test2()
