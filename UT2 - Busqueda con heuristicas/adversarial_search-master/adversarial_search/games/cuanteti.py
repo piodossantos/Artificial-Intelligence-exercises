@@ -3,6 +3,7 @@ from ..core import Game
 from ..utils import coord_id, board_lines, print_board, game_result, cached_property, cached_indexed_property
 import math
 import random
+import copy
 class Cuanteti(Game):
     """ Game component for TicTacToe.
     """
@@ -53,59 +54,43 @@ class Cuanteti(Game):
 
     @staticmethod
     def heuristic_1(agent, game, depth):
-        print("Llego aca")
-        print(str(game.board))
-        diagonals = [
-        [8,5,2],
-        [12,9,6,3],
-        [13,10,7],
-        [4,9,14],
-        [0,5,10,15],
-        [1,6,11]
-        ]
-        positions = [(i,0) for i in range(0,16) if game.board[i]==" "]
-        for p in range(len(positions)):
-            combos = []
-            i = math.floor(positions[p][0]/16)
-            j = positions[p][0]%16
-            combos+=[game.board[i:i+4]]
-            combos+=[[game.board[k] for k in range(16) if k%4 == j]]
-            for f in diagonals:
-                if positions[p][0] in f:
-                    combos+=[[game.board[w] for w in f]]
-            for c in combos:
-                if len(c)>3:
-                    points = abs((c.count("X")-c.count("0"))**3)+c.count(' ')**(1/2)
-                else:
-                    points = (c.count("X")-c.count("0"))**2+c.count(' ')**(1/2)
-                positions[p]=(positions[p][0],points+positions[p][1])
-        result=(-1,-1)
-        best=[]
-        print(positions)
-        for p in positions:
-            result = p if p[1] > result [1] else result
-        for p in positions:
-            if p[1]==result[1]:
-                best+=[result]
-        print(best)
-        return random.choice(best)[0]
-        #square_value = {'X': 1, 'O': -1, '.': 0}
-        #square_factors = [0.1, -0.1, 0.1, -0.1, 0.2, -0.1, 0.1, -0.1, 0.1,2.0,2.0,2.0,2.0,2.0,2.0,2.0]
-        #board_value = sum([square_value[s] * p for s, p in zip(game.board, square_factors)])
-        #return board_value if agent.player == 'Xs' else -board_value
-
+        player = (agent.player == 'Xs')
+        sg = 1 if player else -1
+        score=0
+        #positions =[]
+        pos = [[game.board[8],game.board[5],game.board[2]],
+            [game.board[12],game.board[9],game.board[6],game.board[3]],
+            [game.board[13],game.board[10],game.board[7]],
+            [game.board[4],game.board[9],game.board[14]],
+            [game.board[0],game.board[5],game.board[10],game.board[15]],
+            [game.board[1],game.board[6],game.board[11]]]
+        pos += [game.board[i:i+4] for i in range(4)]
+        pos += [game.board[0]+game.board[4]+game.board[8]+game.board[12]]
+        pos += [game.board[1]+game.board[5]+game.board[9]+game.board[13]]
+        pos += [game.board[2]+game.board[6]+game.board[10]+game.board[14]]
+        pos += [game.board[3]+game.board[7]+game.board[11]+game.board[15]]
+        #print(pos)
+        for p in pos:
+            score = p.count('X')-p.count('Y') + (sg)*(p.count('.'))
+            #print(str(score))
+        return score
 
 
 # Quick test #######################################################################################
 
 def run_test_game(agent1=None, agent2=None):
+
     if not agent1:
         from ..agents.minimax import MiniMaxAgent
         agent1 = MiniMaxAgent('Computer', heuristic=Cuanteti.heuristic_1)
 #        from ..agents.mcts import MCTSAgent
 #        agent1 = MCTSAgent('Computer', simulationCount=10)
     if not agent2:
-        from ..agents.files import FileAgent
-        agent2 = FileAgent(name='Human')
+        from ..agents.random import RandomAgent
+        agent2=RandomAgent()
+        #from ..agents.mcts import MCTSAgent
+        #agent2 = MCTSAgent('Computer', simulationCount=10)
+        #from ..agents.files import FileAgent
+        #agent2 = FileAgent(name='Human')
     from ..core import run_match
-    run_match(Cuanteti(), agent1, agent2)
+    return run_match(Cuanteti(), agent2, agent1)
