@@ -75,7 +75,16 @@ def search2(problem):
     if result[0]:
         return result[1]
     raise Exception("Search 2: Fail")
-
+def search2Max(problem):
+    result = search2_recursive_heuristic(problem, [])
+    if result[0]:
+        return True
+    return False
+def search2Min(problem):
+    result = search2_recursive_heuristic2(problem, [])
+    if result[0]:
+        return True
+    return False
 
 def search2_recursive(game, sequence):
     ##El test objetivo podria plantearse como problema, y secuencia, pero no es eficiente cuando se recorren millones de nodos
@@ -116,6 +125,19 @@ def search2_recursive_heuristic(game, sequence):
     #print("Largo del mazo" + str(len(deck[-1])))
     return search2_recursive_heuristic(game, sequence + [s])
 
+def search2_recursive_heuristic2(game, sequence):
+    #print("Llamado")
+    if goalTest2(game, sequence):
+        return (True, sequence)
+    s = sucesor_heuristic2(game)
+    #print("Sucesor: "+str(s))
+    if s == -2:
+        #print("Imprime none")
+        return (False, sequence)
+    game[-2] += [game[s].pop()]
+    #print("Salio de reasignar")
+    #print("Largo del mazo" + str(len(deck[-1])))
+    return search2_recursive_heuristic2(game, sequence + [s])
 
 def sucesor_heuristic(deck):
     number_decks = len(deck) - 2
@@ -136,6 +158,31 @@ def sucesor_heuristic(deck):
         for i in result:
             #print(str(i),str(deck[i]))
             best = best if len(deck[best]) >= len(deck[i]) else i
+            #print("Best " + str(best))
+        #print(str(best))
+        return best
+    if len(deck[-1]) != 0:
+        return -1
+    return -2
+def sucesor_heuristic2(deck):
+    number_decks = len(deck) - 2
+    foundation = deck[-2][-1]
+    result = []
+    for i in range(number_decks):
+        if deck[i] != []:
+            if deck[i][-1][1] == ((foundation[1] + 1) % 13):
+                result += [i]
+            elif deck[i][-1][1] == ((foundation[1] - 1) % 13):
+                result += [i]
+    #print(result)
+    if result != []:
+        #print("Entro aca")
+        best = result[0]
+        #print(str(best))
+        #print(str(best))
+        for i in result:
+            #print(str(i),str(deck[i]))
+            best = best if len(deck[best]) <= len(deck[i]) else i
             #print("Best " + str(best))
         #print(str(best))
         return best
@@ -176,7 +223,24 @@ def testSearch2():
     a = search1([7,7,7,7,7])
     printGame(a)
 
-
+def comparacion():
+    print("\nComparativa\n")
+    overlapping_list = [7,7,7,7,7]
+    a1=[0]
+    a2=[0]
+    num_simulaciones=10000
+    for i in range(num_simulaciones):
+        juego = RandomDeckCards(overlapping_list)
+        # printGame(juego)
+        #printGame(juego)
+        if search2Max(copy.deepcopy(juego)):
+            a1[0]+=1
+        if search2Min(copy.deepcopy(juego)):
+            a2[0]+=1
+    print("Tasa de acierto en "+str(num_simulaciones)+", con una configuracion de "+str(overlapping_list)+" mesa es:")
+    print("Heuristica Mayor: " + str(a1[0]/num_simulaciones))
+    print("Heuristica Menor: " + str(a2[0]/num_simulaciones))
+comparacion()
 #testSearch1()
-testSearch2()
+#testSearch2()
 # testRandomDeck()
