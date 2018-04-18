@@ -6,7 +6,7 @@ class OptimizationProblem:
     """ Representation of an optimization problem.
     """
 
-    def __init__(self, domains, objective, target=-inf, randgen=None):
+    def __init__(self, domains, objective, target=inf, randgen=None):
        """ An optimization problem is defined by:
 
        + `domains`: a sequence of the ranges of each dimension of the search space, each one as a
@@ -26,8 +26,10 @@ class OptimizationProblem:
         """ Generates a random element, considering the `domains` definition.
         """
         randgen = randgen or self.randgen
-        return tuple(randgen.randint(*self.domains[i]) for i in range(len(self.domains)))
-
+        result = tuple(randgen.randint(*self.domains[i]) for i in range(len(self.domains)))
+        #if (len(list(result)))!= len(list(set(list(result)))):
+        #    return self.randomElement()
+        return result
     def evaluate(self, element):
         return self.objective(element)
 

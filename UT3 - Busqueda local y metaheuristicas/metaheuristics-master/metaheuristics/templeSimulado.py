@@ -67,7 +67,10 @@ def test1(problem=None,restarts=20,steps=100):
     result = random_restart_hill_climbing(problem,restarts,steps)
     print(result)
 def test2():
-    from .test_problems import hello_world,SCHAFFER_N2,BUKING_N6
+    from .test_problems import hello_world,SCHAFFER_N2,BUKING_N6,ALFILES
+    print("\nTest ALFILES")
+    result = test3(problem=ALFILES,T=75,Tf=1,M=25000)
+    print(result)
     print("\nTest Hello World")
     print(test3(problem=hello_world(),T=75,Tf=0.5,M=2000))
     print("\nTest SCHAFFER_N2")
