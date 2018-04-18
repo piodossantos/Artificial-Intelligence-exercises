@@ -6,7 +6,7 @@ class OptimizationProblem:
     """ Representation of an optimization problem.
     """
 
-    def __init__(self, domains, objective, target=inf, randgen=None):
+    def __init__(self, domains, objective, target=-inf, randgen=None):
        """ An optimization problem is defined by:
 
        + `domains`: a sequence of the ranges of each dimension of the search space, each one as a

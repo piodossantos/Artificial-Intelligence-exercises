@@ -42,7 +42,7 @@ def random_restart_hill_climbing(problem,restarts = 20,steps=100):
         print("Simulation #{}, Value: {} , Distance: {}".format(str(i),imprimir,str(step[1])))
         # if (step[1]==0):
         #         return min(simulations,key=lambda x:x[1])
-    return min(simulations,key=lambda x: abs(x[1]))
+    return max(simulations,key=lambda x: x[1])
 
 
 def test1(problem=None,restarts=10,steps=100):

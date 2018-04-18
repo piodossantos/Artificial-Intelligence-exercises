@@ -2,7 +2,7 @@
 
 Test functions for benchmarking optimization techniques.
 """
-from math import sin,sqrt
+from math import *
 from .problem import OptimizationProblem
 
 def hello_world(target_str="Hello world!"):
@@ -37,20 +37,24 @@ def alfiles(elem):
     8,4,5,6,7,5,1,7
     ]
     elemsList = list(elem)
-    #divmod(x0)
     if len(elemsList)!=len(list(set(elemsList))):
         return -65
     c=1
-    for x in elem:
+    elems=[divmod(x,8) for x in elem]
+    diagons=[]
+    for (a,b) in elems:
         if c>0:
-            for y in elem:
-                if x!=y:
-                    if ((x-y)%7==0)or((x-y)%9==0):
-                        print("entro "+str(x)+" "+str(y))
-                        c=-1
-                        break
+            diagons =  [(a+i,b+i) for i in range(1,8) if (a+i)<=7 and (b+i)<=7]
+            diagons += [(a-i,b-i) for i in range(1,8) if (a-i)>=0 and (b-i)>=0]
+            diagons += [(a-i,b+i) for i in range(1,8) if (a-i)>=0 and (b+i)<=7]
+            diagons += [(a+i,b-i) for i in range(1,8) if (a+i)<=7 and (b-i)>=0]
+        for d in diagons:
+            if d in elems:
+                c=-1
+                break
+        diagons=[]
     return (c)*sum([board[x] for x in elem])
 
 BUKING_N6=OptimizationProblem(domains= ((-15,-5),(-3,3)), objective=__bukin_N6__)
 SCHAFFER_N2 = OptimizationProblem(domains= ((-100,+100),)*2, objective=__schaffer_N2__)
-ALFILES = OptimizationProblem(domains= ((0,63),)*8,objective=alfiles)
+ALFILES = OptimizationProblem(domains= ((0,63),)*8,target=inf,objective=alfiles)
