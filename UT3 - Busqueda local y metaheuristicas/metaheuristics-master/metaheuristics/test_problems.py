@@ -4,7 +4,7 @@ Test functions for benchmarking optimization techniques.
 """
 from math import *
 from .problem import OptimizationProblem
-
+import random
 def hello_world(target_str="Hello world!"):
     target_chars = tuple(map(ord, target_str))
     return OptimizationProblem(
@@ -54,7 +54,43 @@ def alfiles(elem):
                 break
         diagons=[]
     return (c)*sum([board[x] for x in elem])
-
+def boda(elem):
+    #afinidad = [[random.randint(-1,1) for _ in range(70)] for _ in range(70)]
+    afinidad = mat(70)
+    elem = list(elem)
+    flag = False
+    errores = 0
+    for e in elem:
+        if elem.count(e)>6:
+            flag=True
+            errores+=1
+            #errores+=elem.count(e)-6
+    if flag:
+        return -71-errores
+    number = list(enumerate(elem))
+    number.sort(key=lambda x: x[1])
+    mesas = [[x for (x,y) in number if y==i ] for i in range(12)]
+    acc=0
+    for mesa in mesas:
+        for p in mesa:
+            for j in mesa:
+                if p!=j:
+                    acc+=afinidad[p][j]
+    return max(acc,-71)
+def mat(a):
+	m = [[3 for _ in range(a)]for _ in range(a)]
+	total = int(a*(a-1)*0.5)
+	elem = [0 for _ in range(ceil(total * 0.5))]+[1 for _ in range(ceil(total * 0.3))]+[-1 for _ in range(ceil(total * 0.2))]
+	for i in range(a):
+		m[i][i]=1
+	for i in range(a):
+		for j in range(a):
+			if i<j:
+				e = elem.pop(random.randint(0,len(elem)-1))
+				m[i][j]=e
+				m[j][i]=e
+	return m
 BUKING_N6=OptimizationProblem(domains= ((-15,-5),(-3,3)), objective=__bukin_N6__)
 SCHAFFER_N2 = OptimizationProblem(domains= ((-100,+100),)*2, objective=__schaffer_N2__)
 ALFILES = OptimizationProblem(domains= ((0,63),)*8,target=inf,objective=alfiles)
+BODA = OptimizationProblem(domains= ((0,11),)*70,target=inf,objective=boda)

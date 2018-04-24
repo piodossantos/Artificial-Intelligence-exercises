@@ -13,7 +13,7 @@ def surroundings(center, radius, domains):
     #            ]
     return [center[0:i] + (center[i] + d,) + center[i + 1:]
                for i in range(len(center)) for d in (-radius, +radius)
-               if center[i] - d >= domains[i][0] and center[i] + d <= domains[i][1]
+               if center[i] - radius >= domains[i][0] and center[i] + radius <= domains[i][1]
            ]
 def hill_climbing(problem, steps=100, delta=1, initial=None):
     """ Hill climbing optimization implemented as a generator function.
@@ -92,7 +92,10 @@ def test3(problem=None,T=10,Tf=0.5,M=10):
     return step
 #usar este para correr todas las operaciones con temple simulado
 def testTS():
-    from .test_problems import hello_world,SCHAFFER_N2,BUKING_N6,ALFILES
+    from .test_problems import hello_world,SCHAFFER_N2,BUKING_N6,ALFILES,BODA
+    print("\nTest BODA")
+    result = test3(problem=BODA,T=750,Tf=1,M=25000)
+    print(result)
     print("\nTest ALFILES")
     result = test3(problem=ALFILES,T=750,Tf=1,M=25000)
     print(result)
@@ -114,9 +117,12 @@ def test1(problem=None,restarts=10,steps=100,maxmin=0):
 
 #ejecuta todos los test con Random Restart
 def testRR():
-    from .test_problems import hello_world,SCHAFFER_N2,BUKING_N6,ALFILES
+    from .test_problems import hello_world,SCHAFFER_N2,BUKING_N6,ALFILES,BODA
+    print("\nTest BODA")
+    result = test1(problem=BODA,steps=1000000,restarts=10,maxmin=1)
+    print(result)
     print("\nTest ALFILES")
-    result = test1(problem=ALFILES,steps=1000000,restarts=1000,maxmin=1)
+    result = test1(problem=ALFILES,steps=1000000,restarts=10,maxmin=1)
     print(result)
     print("\nTest Hello World")
     test1(problem=hello_world())
