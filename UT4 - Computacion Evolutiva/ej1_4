@@ -1,0 +1,19 @@
+Estado:
+Vector de 9 elementos con el peso de cada Pieza colocada.
+Los valores de cada elemento estan en el rango [-0.1,0.1]
+
+Funcion  de idoneidad:
+La funcion de idoneidad consiste en que el individuo juegue contra un jugador que use
+una heuristica hardcodeada.
+Primero juega n veces como min y guarda (victorias/n)
+Luego juega n veces como max y guarda (victorias/n)
+Devuelve la suma de los porcentajes.
+
+Seleccion:
+Elijo las que mas puntaje en la funcion de idoneidad
+
+Cruzamiento:
+Estandar
+
+Mutacion:
+Muto un elemento con tasa de 20%
