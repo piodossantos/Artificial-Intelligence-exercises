@@ -7,7 +7,7 @@ def surroundings(center, radius, domains):
                if center[i] - radius >= domains[i][0] and center[i] + radius <= domains[i][1]
            ]
 
-def tabu_search(problem,tabuList_size=10,steps=100,delta=1 ):
+def tabu_search(problem,tabuList_size=1000,steps=1000,delta=1 ):
     stopCondition = False
     s_best = problem.randomElement();
     s_best = (s_best,problem.objective(s_best))
