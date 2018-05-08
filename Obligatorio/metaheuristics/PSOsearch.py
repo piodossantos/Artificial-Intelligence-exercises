@@ -6,7 +6,8 @@ from deap import base
 from deap import benchmarks
 from deap import creator
 from deap import tools
-			   
+
+
 def generate(size, pmin, pmax, smin, smax):
 	part = creator.Particle(random.uniform(pmin, pmax) for _ in range(size))
 	part.speed = [random.uniform(smin, smax) for _ in range(size)]
@@ -28,7 +29,7 @@ def updateParticle(part, best, phi1, phi2):
     part[:] = list(map(operator.add, part, part.speed))
 
 
-def main(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=-3,smax=3):
+def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=-3,smax=3):
     creator.create("FitnessMinMax", base.Fitness, weights=minimax)
     creator.create("Particle", list, fitness=creator.FitnessMinMax, speed=list,
                         smin=None, smax=None, best=None)
