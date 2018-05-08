@@ -6,8 +6,7 @@ from deap import base
 from deap import benchmarks
 from deap import creator
 from deap import tools
-
-
+			   
 def generate(size, pmin, pmax, smin, smax):
 	part = creator.Particle(random.uniform(pmin, pmax) for _ in range(size))
 	part.speed = [random.uniform(smin, smax) for _ in range(size)]
@@ -29,7 +28,7 @@ def updateParticle(part, best, phi1, phi2):
     part[:] = list(map(operator.add, part, part.speed))
 
 
-def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=-3,smax=3):
+def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=-3,smax=3,GEN=1000):
     creator.create("FitnessMinMax", base.Fitness, weights=minimax)
     creator.create("Particle", list, fitness=creator.FitnessMinMax, speed=list,
                         smin=None, smax=None, best=None)
@@ -48,7 +47,6 @@ def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=
     # logbook = tools.Logbook()
     # logbook.header = ["gen", "evals"] + stats.fields
 
-    GEN = 1000
     best = None
 
     for g in range(GEN):
@@ -67,3 +65,19 @@ def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=
         # logbook.record(gen=g, evals=len(pop), **stats.compile(pop))
         # print(logbook.stream)
         print(best)
+	return (best,best.fitness.values)
+	# return pop, logbook, best
+
+def PSO_adaptor(problem,gen=1000):
+	# assigned parameters
+	pmin = problem.domains[0][0]
+	pmax = problem.domains[0][1]
+	size = len(problem.domains)
+	evaluate = problem.objective
+	smin =-abs(pmax - pmin)
+	smax = abs(pmax - pmin)
+	minimax = (-1.0,)
+	if problem.target = inf:
+		minimax = (1.0,)
+		
+	return PSO_search(evaluate,minimax,size,pmin,pmax,smin,smax,gen)
