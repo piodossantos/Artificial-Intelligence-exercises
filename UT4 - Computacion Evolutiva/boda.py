@@ -72,7 +72,7 @@ toolbox.register("select", tools.selTournament, tournsize=3)
 toolbox.register("evaluate", evaluate)
 
 
-def evolution(CXPB=0.5, MUTPB=0.2, NGEN=30, n=1000):
+def evolution(CXPB=0.5, MUTPB=0.3, NGEN=30, n=1000):
     # create population
     pop = toolbox.population(n)
     #CXPB, MUTPB, NGEN = 0.5, 0.3, 30
@@ -96,9 +96,10 @@ def test1(CXPB=0.5, MUTPB=0.2, NGEN=30, n=1000):
     best = evolution(CXPB, MUTPB, NGEN, n)
     flag = [True]*12==[(best.count(i)<=6) for i in range(12)]
     if flag:
-        print("La mejor solucion es: "+ str(best))
+        print("La mejor solucion es: ")
     else:
-        print("No encontro solucion, la mas aproximada fue: "+str(best)) 
+        print("No encontro solucion, la mas aproximada fue: ")
+    print(str(best))
 
 #if __name__ == "__main__":
 #    best = evolution()
