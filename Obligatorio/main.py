@@ -33,7 +33,7 @@ def create_log(problem=None,metaheuristic=None,flag=False,path="/default.csv", s
         if flag:
             dist=dist[0]
         val=(problem.acc[0],dist)
-        log+=(str(problem.acc[0])+","+str(dist)+'\n')
+        log+=str(problem.acc[0])+","+str(format(dist,".2f"))+'\n'
     f = open(path,"w")
     #f.write("#Evaluation,#Solution\n")
     f.write(log)
@@ -60,11 +60,14 @@ def generate_stats(files_path=__logs__):
 
         for (a,b) in [(np.array(acc),"\nEvaluation\n"),(np.array(dist),"\nSolution\n")]:
             log+=b+"\n"
-            log+="Mean: "+str(a.mean())+"\n"
-            log+="std: "+str(a.std())+"\n"
-            log+="Median: "+str(np.median(a))+"\n"
-            log+="Max: "+str(a.max())+"\n"
-            log+="Min: "+str(a.min())+"\n"
+            log+="Mean: "+str(format(a.mean(),".2f"))+"\n"
+            log+="std: "+str(format(a.std(),".2f"))+"\n"
+            log+="Median: "+str(format(np.median(a),".2f"))+"\n"
+            log+="Max: "+str(format(a.max(),".2f"))+"\n"
+            log+="Min: "+str(format(a.min(),".2f"))+"\n"
         log+="\n\n-----------------------------\n\n"
         f.close()
     print(log)
+    f=open("stats.txt","w")
+    f.write(log)
+    f.close()
