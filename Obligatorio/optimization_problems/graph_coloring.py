@@ -2,11 +2,14 @@ from math import *
 from problem import OptimizationProblem
 import random
 
+flag=[True]
 acc=[0]
 edges_list = []
+n_color=[0]
 def __graph_coloring__(elem):
     acc[0]+=1
     elem=list(elem)
+    elem = [(x%(n_color[0]-1)) for x in elem]
     result=0
     edges = edges_list
     color_list=list(elem)
@@ -15,9 +18,10 @@ def __graph_coloring__(elem):
         for c in child(pos,edges):
             if color_list[c]==current_color:
                 result+=1
+    if flag[0]:
+        return (result,)
     return result
 def child(node,edges):
-    print(edges)
     return [y for (x,y) in edges if x==node]
 def genRandomGraph(n_edges,n_nodes):
     edges=[]
@@ -36,6 +40,7 @@ def genRandomGraph(n_edges,n_nodes):
     return edges
 def graph_coloring_problem(n_nodes,n_edges,n_colors):
     #edges_list.append(genRandomGraph(n_edges,n_nodes))
+    n_color[0]=n_colors
     for elem in genRandomGraph(n_edges,n_nodes):
         edges_list.append(elem)
     return OptimizationProblem(domains= ((0,n_colors-1),)*n_nodes, objective=__graph_coloring__)
