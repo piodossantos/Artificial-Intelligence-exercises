@@ -2,89 +2,23 @@
 
 -----------------------------
 
-File: tabu-booth.csv
-
-
-Evaluation
-
-Mean: 537.30
-std: 167.04
-Median: 607.00
-Max: 607.00
-Min: 9.00
-
-Solution
-
-Mean: 37.64
-std: 83.19
-Median: 2.00
-Max: 314.00
-Min: 0.00
-
-
------------------------------
-
 File: tabu-graph.csv
 
 
 Evaluation
 
-Mean: 2766.78
-std: 254.64
-Median: 2829.00
-Max: 3233.00
-Min: 2021.00
+Mean: 3663.18
+Std: 306.63
+Median: 3639.00
+Max: 4243.00
+Min: 2829.00
 
 Solution
 
-Mean: 1.70
-std: 2.28
-Median: 0.00
-Max: 10.00
-Min: 0.00
-
-
------------------------------
-
-File: tabu-matyas.csv
-
-
-Evaluation
-
-Mean: 564.15
-std: 82.58
-Median: 607.00
-Max: 607.00
-Min: 405.00
-
-Solution
-
-Mean: 0.96
-std: 1.54
-Median: 0.04
-Max: 3.86
-Min: 0.00
-
-
------------------------------
-
-File: PSO-booth.csv
-
-
-Evaluation
-
-Mean: 10.00
-std: 0.00
-Median: 10.00
-Max: 10.00
-Min: 10.00
-
-Solution
-
-Mean: 33.66
-std: 31.41
-Median: 26.00
-Max: 153.00
+Mean: 3.54
+Std: 4.18
+Median: 2.00
+Max: 20.00
 Min: 0.00
 
 
@@ -95,18 +29,84 @@ File: PSO-graph.csv
 
 Evaluation
 
-Mean: 10.00
-std: 0.00
-Median: 10.00
-Max: 10.00
-Min: 10.00
+Mean: 500.00
+Std: 0.00
+Median: 500.00
+Max: 500.00
+Min: 500.00
 
 Solution
 
-Mean: 1.80
-std: 1.32
-Median: 2.00
-Max: 4.00
+Mean: 0.00
+Std: 0.00
+Median: 0.00
+Max: 0.00
+Min: 0.00
+
+
+-----------------------------
+
+File: tabu-booth.csv
+
+
+Evaluation
+
+Mean: 546.27
+Std: 154.99
+Median: 607.00
+Max: 607.00
+Min: 37.00
+
+Solution
+
+Mean: 33.66
+Std: 80.22
+Median: 0.00
+Max: 314.00
+Min: 0.00
+
+
+-----------------------------
+
+File: PSO-booth.csv
+
+
+Evaluation
+
+Mean: 500.00
+Std: 0.00
+Median: 500.00
+Max: 500.00
+Min: 500.00
+
+Solution
+
+Mean: 15.90
+Std: 14.59
+Median: 10.22
+Max: 68.00
+Min: 0.00
+
+
+-----------------------------
+
+File: tabu-matyas.csv
+
+
+Evaluation
+
+Mean: 566.19
+Std: 81.10
+Median: 607.00
+Max: 607.00
+Min: 405.00
+
+Solution
+
+Mean: 0.94
+Std: 1.50
+Median: 0.04
+Max: 3.86
 Min: 0.00
 
 
@@ -117,18 +117,18 @@ File: PSO-matyas.csv
 
 Evaluation
 
-Mean: 10.00
-std: 0.00
-Median: 10.00
-Max: 10.00
-Min: 10.00
+Mean: 500.00
+Std: 0.00
+Median: 500.00
+Max: 500.00
+Min: 500.00
 
 Solution
 
-Mean: 1.40
-std: 1.26
-Median: 1.04
-Max: 7.46
+Mean: 0.50
+Std: 0.44
+Median: 0.36
+Max: 2.39
 Min: 0.00
 
 

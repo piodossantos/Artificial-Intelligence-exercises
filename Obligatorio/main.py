@@ -1,7 +1,7 @@
 from metaheuristics import PSOsearch as pso,tabusearch as tabu
 from optimization_problems import booth_function as booth, graph_coloring as gc, matyas_function as matyas
 import numpy as np
-
+import math
 
 __logs__=[]
 
@@ -11,8 +11,8 @@ def experiment(steps=100):
 
 ###Esta funcion se encarga de correr todas las simulaciones y almacenar los resultados en los logs
 def run_simulations(steps=100):
-    for (metaheuristic,m_name,flag) in [(tabu.tabu_search,"tabu",False),(pso.PSO_adaptor,"PSO",True)]:
-        for (problem,p_name) in [(booth,"booth"),(gc,"graph"),(matyas,"matyas")]:
+    for (problem,p_name) in [(gc,"graph"),(booth,"booth"),(matyas,"matyas")]:
+        for (metaheuristic,m_name,flag) in [(tabu.tabu_search,"tabu",False),(pso.PSO_adaptor,"PSO",True)]:
             create_log(problem,metaheuristic,flag,m_name+"-"+p_name+".csv",steps)
             #create_log(booth,tabu.tabu_search,"tabu.csv")
 
@@ -43,6 +43,9 @@ def create_log(problem=None,metaheuristic=None,flag=False,path="/default.csv", s
 ### Esta funcion se encarga de generar datos sobre los valores almacenados
 ### -files_path, nombre de archivos que usara para generar los datos
 def generate_stats(files_path=__logs__):
+    z_025 = 1.96
+    std_list=[]
+    mean_list=[]
     log="\n\n-----------------------------\n\n"
     for path in files_path:
         acc=[]
@@ -60,11 +63,15 @@ def generate_stats(files_path=__logs__):
 
         for (a,b) in [(np.array(acc),"\nEvaluation\n"),(np.array(dist),"\nSolution\n")]:
             log+=b+"\n"
-            log+="Mean: "+str(format(a.mean(),".2f"))+"\n"
-            log+="std: "+str(format(a.std(),".2f"))+"\n"
+            mean_n=a.mean()
+            std_n=a.std()
+            log+="Mean: "+str(format(mean_n,".2f"))+"\n"
+            log+="Std: "+str(format(std_n,".2f"))+"\n"
             log+="Median: "+str(format(np.median(a),".2f"))+"\n"
             log+="Max: "+str(format(a.max(),".2f"))+"\n"
             log+="Min: "+str(format(a.min(),".2f"))+"\n"
+            std_list.append(std_n)
+            mean_list.append(mean_n)
         log+="\n\n-----------------------------\n\n"
         f.close()
     print(log)

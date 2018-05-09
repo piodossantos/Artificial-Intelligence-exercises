@@ -40,12 +40,11 @@ def genRandomGraph(n_edges,n_nodes):
                 edges.append((elem[1],elem[0]))
     return edges
 def graph_coloring_problem(n_nodes,n_edges,n_colors):
-    #edges_list.append(genRandomGraph(n_edges,n_nodes))
-    if graph_gen[0]=0:
+    if graph_gen[0]==0:
         n_color[0]=n_colors
         for elem in genRandomGraph(n_edges,n_nodes):
             edges_list.append(elem)
         graph_gen[0]=1
     return OptimizationProblem(domains= ((0,n_colors-1),)*n_nodes, objective=__graph_coloring__)
 
-PROBLEM = graph_coloring_problem(15,40,15)
+PROBLEM = graph_coloring_problem(20,80,15)

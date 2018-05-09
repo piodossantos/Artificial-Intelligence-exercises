@@ -29,7 +29,7 @@ def updateParticle(part, best, phi1, phi2):
 		part[:] = list(map(operator.add, part, part.speed))
 
 
-def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=-3,smax=3,GEN=1000):
+def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=-3,smax=3,GEN=50):
 	creator.create("FitnessMinMax", base.Fitness, weights=minimax)
 	creator.create("Particle", list, fitness=creator.FitnessMinMax, speed=list,smin=None, smax=None, best=None)
 	toolbox = base.Toolbox()
@@ -52,10 +52,10 @@ def PSO_search(evaluate=benchmarks.h1,minimax=(1.0,),size=2,pmin=-6,pmax=6,smin=
 		for part in pop:
 			toolbox.update(part, best)
 
-		return(best,best.fitness.values)
+	return(best,best.fitness.values)
 	# return pop, logbook, best
 
-def PSO_adaptor(problem,gen=1000):
+def PSO_adaptor(problem,gen=50):
 	# assigned parameters
 	pmin = problem.domains[0][0]
 	pmax = problem.domains[0][1]
